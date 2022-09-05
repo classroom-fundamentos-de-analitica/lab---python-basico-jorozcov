@@ -20,8 +20,15 @@ def pregunta_01():
     Rta/
     214
 
-    """
-    return
+    """ 
+    
+    file = open("data.csv", "r")
+    suma = 0 
+    
+    for renglon in file:
+        suma += int((renglon.split())[1])
+    
+    return suma
 
 
 def pregunta_02():
@@ -39,7 +46,17 @@ def pregunta_02():
     ]
 
     """
-    return
+    file = open("data.csv", "r")
+    registros = {}
+    
+    for renglon in file:
+        renglon = renglon.split()
+        if renglon[0] in registros:
+            registros[renglon[0]] += 1
+        else: 
+            registros[renglon[0]] = 1
+            
+    return sorted(registros.items(), key= lambda x: x[0])
 
 
 def pregunta_03():
@@ -57,7 +74,17 @@ def pregunta_03():
     ]
 
     """
-    return
+    file = open("data.csv", "r")
+    registros = {}
+    
+    for renglon in file:
+        renglon = renglon.split()
+        if renglon[0] in registros:
+            registros[renglon[0]] += int(renglon[1])
+        else: 
+            registros[renglon[0]] = int(renglon[1])
+            
+    return sorted(registros.items(), key= lambda x: x[0])
 
 
 def pregunta_04():
@@ -82,7 +109,18 @@ def pregunta_04():
     ]
 
     """
-    return
+    file = open("data.csv", "r")
+    registros = {}
+    
+    for renglon in file:
+        renglon = renglon.split()
+        mes = (renglon[2].split("-"))[1]
+        if mes in registros:
+            registros[mes] += 1
+        else:
+            registros[mes] = 1
+    
+    return sorted(registros.items(), key= lambda x: x[0])
 
 
 def pregunta_05():
@@ -100,7 +138,39 @@ def pregunta_05():
     ]
 
     """
-    return
+    
+    file = open("data.csv", "r")
+    registros = []
+    
+    for renglon in file:
+        renglon = renglon.split()
+        esta = False
+        
+        for dir in registros:
+            if dir["letra"] == renglon[0]:
+                esta = True
+                break
+        
+        if not esta:
+            registros.append({
+                "letra":renglon[0],
+                "max":int(renglon[1]),
+                "min":int(renglon[1])
+            })
+        else:
+            for dir in registros:
+                if dir["letra"] == renglon[0]:
+                    if dir["max"] < int(renglon[1]):
+                        dir["max"] = int(renglon[1])
+                        
+                    elif dir["min"] > int(renglon[1]):
+                        dir["min"] = int(renglon[1])
+    
+    registros_final = []
+    for dir in registros:
+        registros_final.append((dir["letra"],dir["max"],dir["min"],))
+        
+    return sorted(registros_final, key=lambda x: x[0])
 
 
 def pregunta_06():
@@ -125,7 +195,39 @@ def pregunta_06():
     ]
 
     """
-    return
+    
+    file = open("data.csv", "r")
+    registros = []
+    
+    for renglon in file:
+        diccionarios = renglon.split()[4]
+        diccionarios = diccionarios.split(',')
+ 
+        for d in diccionarios:
+            key , ele = d.split(':')
+            ele = int(ele)
+            exist = False
+            
+            for dir in registros:
+                if dir["clave"] == key:
+                    
+                    if dir["min"] > ele:
+                        dir["min"] = ele
+                    if dir["max"] < ele:
+                        dir["max"] = ele
+                        
+                    exist = True
+                
+            if not exist:
+                registros.append({
+                    "clave":key,
+                    "min":ele,
+                    "max":ele
+                })
+    
+    registros = [(r["clave"],r["min"],r["max"]) for r in registros]
+    
+    return sorted(registros, key= lambda x: x[0])
 
 
 def pregunta_07():
@@ -149,7 +251,29 @@ def pregunta_07():
     ]
 
     """
-    return
+    
+    file = open("data.csv", "r")
+    registros = []
+    
+    for renglon in file:
+        letra, num = renglon.split()[0:2]
+        num = int(num)
+        exist = False
+        
+        for dir in registros:
+            if dir["num"] == num:
+                dir["letras"].append(letra)
+                exist = True
+            
+        if not exist:
+            registros.append({
+                "num":num,
+                "letras":[letra]
+            })
+    
+    registros = [(r["num"],r["letras"]) for r in registros]
+    
+    return sorted(registros, key= lambda x: x[0])
 
 
 def pregunta_08():
