@@ -298,7 +298,29 @@ def pregunta_08():
     ]
 
     """
-    return
+    file = open("data.csv", "r")
+    registros = []
+    
+    for renglon in file:
+        letra, num = renglon.split()[0:2]
+        num = int(num)
+        exist = False
+        
+        for dir in registros:
+            if dir["num"] == num:
+                if letra not in dir["letras"]:
+                    dir["letras"].append(letra)
+                exist = True
+            
+        if not exist:
+            registros.append({
+                "num":num,
+                "letras":[letra]
+            })
+    
+    registros = [(r["num"],sorted(r["letras"])) for r in registros]
+    
+    return sorted(registros, key= lambda x: x[0])
 
 
 def pregunta_09():
@@ -321,7 +343,27 @@ def pregunta_09():
     }
 
     """
-    return
+    
+    file = open("data.csv","r")
+    registros = {}
+    
+    for renglon in file:
+        keys = renglon.split()[4]
+        keys = keys.split(',')
+        keys = [k.split(":")[0] for k in keys]
+        
+        for key in keys:
+            if key not in registros.keys():
+                registros[key] = 1
+            else:
+                registros[key] += 1
+    
+    registros_ord = {}
+    
+    for clave in sorted(registros):
+        registros_ord[clave] = registros[clave]
+        
+    return registros_ord
 
 
 def pregunta_10():
