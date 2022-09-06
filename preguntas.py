@@ -384,7 +384,20 @@ def pregunta_10():
 
 
     """
-    return
+    
+    file = open("data.csv","r")
+    resultado = []
+    
+    for renglon in file:
+        renglon = renglon.split()
+        
+        letra = renglon[0]
+        cant_col4 = len(renglon[3].split(','))
+        cant_col5 = len(renglon[4].split(','))
+        
+        resultado.append((letra,cant_col4,cant_col5))
+        
+    return resultado
 
 
 def pregunta_11():
@@ -405,7 +418,23 @@ def pregunta_11():
 
 
     """
-    return
+    
+    file = open("data.csv","r")
+    resultado = {}
+    
+    for renglon in file:
+        renglon = renglon.split()
+        valor = int(renglon[1])
+        
+        for letra in renglon[3].split(","):
+            resultado[letra] = resultado.get(letra,0) + valor
+            
+    resultado_ord = {}
+    
+    for clave in sorted(resultado):
+        resultado_ord[clave] = resultado[clave]
+        
+    return resultado_ord
 
 
 def pregunta_12():
@@ -423,4 +452,25 @@ def pregunta_12():
     }
 
     """
-    return
+    
+    file = open("data.csv", "r")
+    resultado = {}
+    
+    for renglon in file:
+        renglon = renglon.split()
+        
+        clave = renglon[0]
+        
+        cantidad = 0
+        for x in renglon[4].split(","):
+            _,valor = x.split(":")
+            cantidad += int(valor)
+        
+        resultado[clave] = resultado.get(clave, 0) + cantidad
+        
+    resultado_ord = {}
+    
+    for clave in sorted(resultado):
+        resultado_ord[clave] = resultado[clave]
+        
+    return resultado_ord
